@@ -14,66 +14,42 @@
 //==============================================================================
 /**
 */
-class Convolver3AudioProcessorEditor  : public juce::AudioProcessorEditor
+class NewProjectAudioProcessorEditor : public juce::AudioProcessorEditor,
+                                       public juce::Slider::Listener
+                                       //,public Visualiser1
+    //äîïèñàë  public juce::Slider::Listener 
 {
 public:
-    Convolver3AudioProcessorEditor (Convolver3AudioProcessor&);
-    ~Convolver3AudioProcessorEditor() override;
+    NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
+    ~NewProjectAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void openButtonClicked();
-    void playButtonClicked();
+    //ïðîòîòèï, ðàçðåøàþùèé ïåðåîïðåäåëåíèå ìåòîäà
+    void  sliderValueChanged(juce::Slider* slider) override;
+
+    //âûçûâàþ îáúåêò êëàññà ñëàéäåð àòòà÷åìåíò
+    //÷åë âòóòîðå ñêàçàë ÷òî íóæíî èñïîëüçîâàòü óêàçàòåëü, ïîýòîìó äîáàâèë â óãëîâûå ñêîáêè êëàññ è ïåðåä íèì äîïèñàë
+    //juce::ScopedPointer, juce ïîäñêàçûâàåò ÷òî îí óñòàðåë, ïîýòîìó ÿ çàìåíþ íà òî ÷òî îí ïðåäëàãàåò std::unique_ptr
+    juce::ScopedPointer <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttach;
+
+
+
 private:
-    // This reference is provided as a quick way for your editor to
+        // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    Convolver3AudioProcessor& audioProcessor;
+    NewProjectAudioProcessor& audioProcessor;
+    //ñîçäàþ ñëàéäåðû
 
-    //-create button 
-    juce::TextButton openButton;
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
-    enum TransportState
-    {
-        Stopped,
-        Starting,
-        Playing,
-        Stopping
-    };
+    juce::Slider gainSlider;
+    juce::Slider stretchSlider;
+    juce::Slider mixSlider;
 
-    juce::AudioFormatManager formatManager;
+    //îáúÿâëÿþ êíîïêó
+    juce::TextButton mLoadButton{ "Load" };
+    
 
-    //void changeState(TransportState newState)
-    //{
-    //    if (state != newState)
-    //    {
-    //        state = newState;
-
-    //        switch (state)
-    //        {
-    //        case Stopped:                           // [3]
-    //            stopButton.setEnabled(false);
-    //            playButton.setEnabled(true);
-    //            transportSource.setPosition(0.0);
-    //            break;
-
-    //        case Starting:                          // [4]
-    //            playButton.setEnabled(false);
-    //            transportSource.start();
-    //            break;
-
-    //        case Playing:                           // [5]
-    //            stopButton.setEnabled(true);
-    //            break;
-
-    //        case Stopping:                          // [6]
-    //            transportSource.stop();
-    //            break;
-    //        }
-    //    }
-    //}
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Convolver3AudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };

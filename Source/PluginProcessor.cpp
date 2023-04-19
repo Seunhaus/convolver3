@@ -209,7 +209,7 @@ void NewProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         //juce::AudioSampleBuffer c_sampleBuffer, int c_maxLengthOfConvolution,int currentChannel)
 
         // ..do something to the data...
-        //I ADD VISUALISER
+        
        
         visualiser.pushBuffer(sampleBuffer);
 
